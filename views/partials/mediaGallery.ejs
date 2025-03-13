@@ -1,0 +1,27 @@
+<div class="media-gallery">
+    <div class="main-media">
+        <img src="<%= product.media[0] %>" 
+             class="img-fluid" 
+             alt="Main product image"
+             id="mainMedia">
+    </div>
+    
+    <div class="thumbnail-row d-flex flex-wrap gap-2 mt-3">
+        <% product.media.forEach((media, index) => { %>
+            <div class="thumbnail <%= index === 0 ? 'active' : '' %>"
+                 onclick="changeMedia('<%= media %>', this)">
+                <img src="<%= media %>" 
+                     class="img-thumbnail" 
+                     alt="Thumbnail <%= index + 1 %>">
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+<script>
+function changeMedia(src, element) {
+    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+    document.getElementById('mainMedia').src = src;
+}
+</script>

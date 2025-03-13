@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Edit Product</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/admin-edit.css" rel="stylesheet">
+    <style>
+        /* Base Variables */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+    --sidebar-bg: #E6E7E9;
+    --card-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+    --border-radius: 10px;
+    --tw-ring-color: rgba(59, 130, 246, 0.5);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-shadow: 0 0 #0000;
+}
+
+/* Global Styles */
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header & Logo */
+.logo {
+    padding: 15px 0;
+    background-color: white;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.fap {
+    background-color: var(--light-bg);
+    padding: 10px 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.fap h2 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+/* Main Content Layout */
+.putin {
+    margin-top: 20px;
+    min-height: calc(100vh - 200px);
+}
+
+/* Sidebar Navigation */
+.tea {
+    padding: 20px 0;
+    min-height: 300px;
+}
+
+.tea a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: black;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    transition: background-color var(--transition-speed);
+}
+
+.tea a:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: var(--primary-color);
+}
+
+.tea a.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.sea {
+    padding: 20px 15px;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Button Styling */
+.btn {
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all var(--transition-speed);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Star Rating Component */
+.star-rating {
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    gap: 5px;
+}
+
+.star {
+    color: gray;
+    transition: color 0.2s ease, outline 0.2s ease;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+.star.active, .star:hover {
+    color: gold;
+}
+
+.star:focus {
+    outline-color: var(--tw-ring-color);
+}
+
+/* Current Media Preview */
+.media-preview {
+    margin: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.media-preview img, 
+.media-preview video {
+    border-radius: var(--border-radius);
+    border: 1px solid #dee2e6;
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+}
+
+/* Category Suggestions */
+.category-suggestions {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    width: 100%;
+    z-index: 1000;
+    display: none;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.category-suggestions div {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.category-suggestions div:hover {
+    background-color: var(--light-bg);
+}
+
+/* Edit-specific styles */
+.edit-header {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.edit-header h2 {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Product Image Preview Section */
+.product-media-preview {
+    background-color: var(--light-bg);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+}
+
+.product-media-preview h4 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: var(--secondary-color);
+}
+
+/* Media upload */
+.media-upload-container {
+    border: 2px dashed #dee2e6;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+    transition: border-color var(--transition-speed);
+    margin-bottom: 20px;
+}
+
+.media-upload-container:hover {
+    border-color: var(--primary-color);
+}
+
+.media-upload-container input[type="file"] {
+    display: none;
+}
+
+.media-upload-container label {
+    cursor: pointer;
+    color: var(--primary-color);
+    font-weight: normal;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.action-buttons .btn {
+    flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .col-sm-7 {
+        margin-top: 20px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+}
+    </style>
+</head>
+
+<body>
+    <!-- Header with Logo -->
+    <div class="logo">
+        <img src="images/shop.png" width="6.5%">
+        <h3 class="ml-3">Admin Dashboard</h3>
+    </div>
+    
+    <!-- Page Title Bar -->
+    <div class="fap">
+        <div class="container">
+            <b><h2>Edit Product</h2></b>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="putin">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Navigation -->
+                <div class="col-md-4 col-lg-3" style="background-color: var(--sidebar-bg);">
+                    <div class="tea">
+                        <a href="/Admin" class="<%= currentPage === 'upload' ? 'active' : '' %>">
+                            <i class="fas fa-upload mr-2"></i> Upload Product
+                        </a>
+                        <a href="/product" class="<%= currentPage === 'products' ? 'active' : '' %>">
+                            <i class="fas fa-box mr-2"></i> Product List
+                        </a>
+                        <a href="/order" class="<%= currentPage === 'orders' ? 'active' : '' %>">
+                            <i class="fas fa-shopping-cart mr-2"></i> Orders
+                            <% if (typeof newOrdersCount !== 'undefined' && newOrdersCount > 0) { %>
+                                <span class="badge badge-danger ml-2"><%= newOrdersCount %></span>
+                            <% } %>
+                        </a>
+                        <a href="/categories" class="<%= currentPage === 'categories' ? 'active' : '' %>">
+                            <i class="fas fa-tags mr-2"></i> Categories
+                        </a>
+                    </div>
+                    <div class="sea">
+                        <form action="/logout" method="POST">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-sign-out-alt mr-2"></i> LOG OUT
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Edit Form Content -->
+                <div class="col-md-8 col-lg-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="edit-header">
+                                <h2><i class="fas fa-edit mr-2"></i> Edit Product</h2>
+                                <p class="text-muted">Product ID: <%= order._id %></p>
+                            </div>
+
+                            <form action="/ordersEdit/<%= order._id %>" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <!-- Product Details -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="productName">Product Name</label>
+                                            <input type="text" class="form-control" name="productName" value="<%= order.productName %>" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productCode">Product Code</label>
+                                            <input type="text" class="form-control" name="productCode" value="<%= order.productCode %>" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productBrand">Product Brand</label>
+                                            <input type="text" class="form-control" name="productBrand" value="<%= order.productBrand %>" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="category">Category</label>
+                                            <input type="text" class="form-control" name="category" id="categoryInput" value="<%= order.category %>" required autocomplete="off">
+                                            <div class="category-suggestions" id="categorySuggestions"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Pricing and Stock -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="originalPrice">Original Price</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input type="number" class="form-control" name="originalPrice" value="<%= order.originalPrice %>" step="0.01" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="discountPrice">Discount Price (Optional)</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input type="number" class="form-control" name="discountPrice" value="<%= order.discountPrice %>" step="0.01">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inStock">Stock Status</label>
+                                            <select class="form-control" name="inStock" required>
+                                                <option value="true" <%= order.inStock ? 'selected' : '' %>>In Stock</option>
+                                                <option value="false" <%= !order.inStock ? 'selected' : '' %>>Out of Stock</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="rating">Product Rating</label>
+                                            <div class="star-rating">
+                                                <% for (let i = 1; i <= 5; i++) { %>
+                                                    <span class="star <%= i <= order.rating ? 'active' : '' %>" data-value="<%= i %>">&#9733;</span>
+                                                <% } %>
+                                            </div>
+                                            <input type="hidden" name="rating" id="rating" value="<%= order.rating %>">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Current Media Display -->
+                                <div class="product-media-preview">
+                                    <h4><i class="fas fa-images mr-2"></i>Current Media</h4>
+                                    <div class="media-preview">
+                                        <% order.media.forEach((media, index) => { %>
+                                            <% if (media.endsWith('.mp4') || media.endsWith('.webm') || media.endsWith('.ogg') || media.endsWith('.mov') || media.endsWith('.avi') || media.endsWith('.mkv')) { %>
+                                                <div class="media-item">
+                                                    <video width="100" height="100" controls>
+                                                        <source src="<%= media %>" type="<%= getMimeType(media) %>">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                    <div class="media-controls">
+                                                        <input type="checkbox" name="deleteMedia[]" value="<%= index %>" id="delete-<%= index %>">
+                                                        <label for="delete-<%= index %>" title="Mark for deletion"><i class="fas fa-trash-alt"></i></label>
+                                                    </div>
+                                                </div>
+                                            <% } else { %>
+                                                <div class="media-item">
+                                                    <img src="<%= media %>" width="100" height="100">
+                                                    <div class="media-controls">
+                                                        <input type="checkbox" name="deleteMedia[]" value="<%= index %>" id="delete-<%= index %>">
+                                                        <label for="delete-<%= index %>" title="Mark for deletion"><i class="fas fa-trash-alt"></i></label>
+                                                    </div>
+                                                </div>
+                                            <% } %>
+                                        <% }) %>
+                                    </div>
+                                </div>
+
+                                <!-- New Media Upload -->
+                                <div class="form-group">
+                                    <label for="media">Add New Media (Optional)</label>
+                                    <div class="media-upload-container">
+                                        <label for="media-upload">
+                                            <i class="fas fa-cloud-upload-alt fa-3x mb-2"></i>
+                                            <p>Click to select images or videos</p>
+                                        </label>
+                                        <input type="file" id="media-upload" name="media" multiple>
+                                    </div>
+                                    <div id="new-media-preview" class="media-preview"></div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="action-buttons">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save mr-2"></i> Update Product
+                                    </button>
+                                    <a href="/product" class="btn btn-secondary">
+                                        <i class="fas fa-times mr-2"></i> Cancel
+                                    </a>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmModal">
+                                        <i class="fas fa-trash-alt mr-2"></i> Delete Product
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+                    <p><strong>Product: </strong><%= order.productName %></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="/ordersDelete/<%= order._id %>" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Required JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/admin-edit.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Star rating functionality
+    const stars = document.querySelectorAll('.star-rating .star');
+    const ratingInput = document.getElementById('rating');
+
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const value = parseInt(this.getAttribute('data-value'));
+            ratingInput.value = value;
+
+            stars.forEach((s, index) => {
+                if (index < value) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        });
+
+        // Hover effect preview
+        star.addEventListener('mouseenter', function() {
+            const value = parseInt(this.getAttribute('data-value'));
+            
+            stars.forEach((s, index) => {
+                if (index < value) {
+                    s.classList.add('hover');
+                } else {
+                    s.classList.remove('hover');
+                }
+            });
+        });
+
+        star.addEventListener('mouseleave', function() {
+            stars.forEach(s => {
+                s.classList.remove('hover');
+            });
+        });
+    });
+
+    // Category suggestions
+    const categoryInput = document.getElementById('categoryInput');
+    const categorySuggestions = document.getElementById('categorySuggestions');
+
+    if (categoryInput && categorySuggestions) {
+        categoryInput.addEventListener('input', async function() {
+            try {
+                const response = await fetch('/categories');
+                const categories = await response.json();
+                
+                categorySuggestions.innerHTML = '';
+                const inputValue = categoryInput.value.toLowerCase();
+                
+                const matchedCategories = categories.filter(category => 
+                    category.toLowerCase().includes(inputValue)
+                );
+                
+                matchedCategories.forEach(category => {
+                    const suggestion = document.createElement('div');
+                    suggestion.innerText = category;
+                    suggestion.addEventListener('click', function() {
+                        categoryInput.value = category;
+                        categorySuggestions.style.display = 'none';
+                    });
+                    categorySuggestions.appendChild(suggestion);
+                });
+
+                categorySuggestions.style.display = matchedCategories.length ? 'block' : 'none';
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!categoryInput.contains(event.target) && !categorySuggestions.contains(event.target)) {
+                categorySuggestions.style.display = 'none';
+            }
+        });
+    }
+
+    // Media preview functionality
+    const mediaInput = document.querySelector('input[name="media"]');
+    const existingMediaPreview = document.querySelector('.media-preview');
+    
+    if (mediaInput) {
+        mediaInput.addEventListener('change', function() {
+            // Clear any new media previews
+            const newPreviewContainer = document.getElementById('new-media-preview');
+            if (newPreviewContainer) {
+                newPreviewContainer.innerHTML = '';
+            } else {
+                const previewContainer = document.createElement('div');
+                previewContainer.id = 'new-media-preview';
+                previewContainer.className = 'media-preview';
+                previewContainer.innerHTML = '<h4>New Media:</h4>';
+                mediaInput.parentNode.insertBefore(previewContainer, mediaInput.nextSibling);
+            }
+            
+            const files = this.files;
+            if (files) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const previewElement = document.createElement(
+                            file.type.startsWith('video/') ? 'video' : 'img'
+                        );
+                        
+                        if (file.type.startsWith('video/')) {
+                            previewElement.controls = true;
+                            previewElement.autoplay = false;
+                            previewElement.muted = true;
+                        }
+                        
+                        previewElement.src = e.target.result;
+                        document.getElementById('new-media-preview').appendChild(previewElement);
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+    }
+
+    // Form validation
+    const form = document.querySelector('form[action^="/ordersEdit/"]');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            const productName = document.querySelector('input[name="productName"]').value;
+            const productCode = document.querySelector('input[name="productCode"]').value;
+            const originalPrice = document.querySelector('input[name="originalPrice"]').value;
+            
+            if (!productName || !productCode || !originalPrice) {
+                event.preventDefault();
+                alert('Please fill in all required fields');
+            }
+        });
+    }
+
+    // Discount price validation
+    const originalPriceInput = document.querySelector('input[name="originalPrice"]');
+    const discountPriceInput = document.querySelector('input[name="discountPrice"]');
+    
+    if (originalPriceInput && discountPriceInput) {
+        discountPriceInput.addEventListener('change', function() {
+            const originalPrice = parseFloat(originalPriceInput.value);
+            const discountPrice = parseFloat(this.value);
+            
+            if (discountPrice >= originalPrice) {
+                alert('Discount price must be less than original price');
+                this.value = '';
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

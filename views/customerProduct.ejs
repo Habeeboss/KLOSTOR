@@ -1,0 +1,488 @@
+<!-- views/customerProduct.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgba(59, 130, 246, 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+        }
+    
+        /* Product Card Styling */
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+    
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+    
+        /* Product Image */
+        .product-image {
+            width: 100%;
+            height: 250px; /* Adjust based on layout */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+    
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures full image is visible without cropping */
+        }
+    
+        /* Product Details */
+        .product-details h5 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    
+        .price {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+    
+        .price b {
+            color: #28a745;
+            font-weight: bold;
+        }
+    
+        .price span {
+            color: #6c757d;
+        }
+    
+        /* Star Rating */
+        .star-rating {
+            font-size: 24px;
+            cursor: pointer;
+        }
+    
+        .star {
+            color: gray; /* Default color for unselected stars */
+            transition: color 0.2s ease; /* Smooth transition for hover effect */
+        }
+    
+        .star.active {
+            color: gold; /* Color for selected stars */
+        }
+    
+        .star:hover {
+            color: gold; /* Highlight stars on hover */
+        }
+    
+        /* Buttons */
+        .btn {
+            border-radius: 5px;
+            font-size: 14px;
+            padding: 8px 12px;
+        }
+    
+        .auth-forms {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: #fff;
+            padding: 20px;
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000);
+            z-index: 1000;
+            border-radius: 8px;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            transition: outline-color 0.2s ease-in-out;
+        }
+    
+        .auth-forms:focus-within {
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000);
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            transition: outline-color 0.2s ease-in-out;
+        }
+    
+        .sidenav:focus-within {
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #000;
+            display: block;
+            transition: 0.3s;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+        }
+    
+        .sidenav a:hover {
+            color: #007bff;
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .sidenav a:focus {
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            transition: outline-color 0.2s ease-in-out;
+        }
+    
+        .sidenav .closebtn:focus {
+            outline-color: var(--tw-ring-color);
+        }
+        .password-container {
+            position: relative;
+            width: 100%; /* Full width */
+        }
+    
+        .password-container input[type="password"],
+        .password-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            padding-right: 40px; /* Space for the eye icon */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+        }
+    
+        .toggle-password:hover {
+            color: #333;
+        }
+
+        .auth-buttons {
+            margin: 15px 0;
+            text-align: right;
+        }
+
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .auth-modal.active {
+            display: block;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .auth-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .auth-switch a {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .close-auth {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .toggle-password i {
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+        @media (max-width: 768px) {
+    .product-gallery {
+        margin-bottom: 1rem;
+    }
+    
+    .thumbnail-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .price-badge {
+        font-size: 1.2rem;
+    }
+}
+
+
+    </style>
+
+</head>
+<body>
+    <div>
+        <%- include('partials/navbar') %>
+        
+        <!-- Auth Buttons Container -->
+        <div class="container">
+            <div class="auth-buttons">
+                <% if (!isAuthenticated) { %> 
+                    <button class="btn btn-outline-primary mr-2" onclick="toggleLoginModal()">Login</button>
+                    <button class="btn btn-primary" onclick="toggleSignupModal()">Sign Up</button>
+                <% } %> 
+            </div>
+        </div>
+
+        <nav>
+            <!-- Modals -->
+            <div class="modal-overlay" id="authOverlay" onclick="closeAllModals()"></div>
+
+            <!-- Login Modal -->
+            <div id="loginModal" class="auth-modal">
+                <div class="auth-header">
+                    <h4>Customer Login</h4>
+                    <button class="close-auth" onclick="closeAllModals()">&times;</button>
+                </div>
+                <form action="/customerProduct/customerLogin" method="POST">
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group password-container">
+                        <input type="password" class="form-control" name="password" id="customerPassword" placeholder="Password" required>
+                        <span class="toggle-password" onclick="togglePasswordVisibility('customerPassword')">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    <div class="auth-switch">
+                        Don't have an account? <a onclick="toggleSignupModal()">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Signup Modal -->
+            <div id="signupModal" class="auth-modal">
+                <div class="auth-header">
+                    <h4>Customer Signup</h4>
+                    <button class="close-auth" onclick="closeAllModals()">&times;</button>
+                </div>
+                <form action="/customerProduct/customerSignup" method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group password-container">
+                        <input type="password" class="form-control" name="password" id="customerSignupPassword" placeholder="Password" required>
+                        <span class="toggle-password" onclick="togglePasswordVisibility('customerSignupPassword')">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                    <div class="auth-switch">
+                        Already have an account? <a onclick="toggleLoginModal()">Login</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Existing alerts and messages -->
+            <% if (messages.error) { %>
+                <div class="alert alert-danger"><%= messages.error %></div>
+            <% } %>
+            <% if (messages.success) { %>
+                <div class="alert alert-success"><%= messages.success %></div>
+            <% } %>
+
+            <% if (isAuthenticated) { %>
+                <div class="nav-item">
+                    <form action="/logout" method="POST">
+                        <button type="submit" class="btn btn-primary" 
+                                style="font-weight:bold; font-size:15px; border-radius: 20px; padding:8px 25px;">
+                            LOG OUT
+                        </button>
+                    </form>
+                </div>
+            <% } %>
+        </nav>
+    </div>
+
+    <div class="container">
+        <h1 class="text-center my-4">Welcome to Our Store</h1>
+    </div>
+
+<div id="searchResults" class="mt-4"></div>
+<script src="/js/search.js"></script>
+
+<div class="container">
+    <div class="row">
+        <% orders.forEach((order) => { %>
+            <div class="col-md-4 mb-4">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="<%= order.urlImage %>" alt="<%= order.productName %>">
+                    </div>
+                    <div class="product-details">
+                        <h5><%= order.productName %></h5>
+                        <p><b>Price:</b> $<%= order.originalPrice %></p>
+                        <% if (isAuthenticated) { %>
+                            <button onclick="addToCart('<%= order._id %>')" class="btn btn-success">Add to Cart</button>
+                            <a href="/preview/<%= order._id %>" class="btn btn-primary">Preview</a>
+                        <% } else { %>
+                            <button disabled class="btn btn-secondary">Add to Cart</button>
+                            <button disabled class="btn btn-secondary">Preview</button>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</div>
+
+    <script>
+        function addToCart(productId) {
+            fetch('/add-to-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId, quantity: 1 }),
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.message === 'Product added to cart') {
+                      alert('Product added to cart!');
+                  } else {
+                      alert('Failed to add product to cart.');
+                  }
+              });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('.star-rating .star');
+            const ratingInput = document.getElementById('rating');
+
+            stars.forEach(star => {
+                star.addEventListener('click', function () {
+                    const value = parseInt(this.getAttribute('data-value'));
+                    ratingInput.value = value;
+
+                    stars.forEach((s, index) => {
+                        s.classList.toggle('active', index < value);
+                    });
+                });
+            });
+        });
+
+        function toggleLoginModal() {
+            document.getElementById('loginModal').classList.toggle('active');
+            document.getElementById('authOverlay').classList.toggle('active');
+        }
+
+        function toggleSignupModal() {
+            document.getElementById('signupModal').classList.toggle('active');
+            document.getElementById('authOverlay').classList.toggle('active');
+        }
+
+        function closeAllModals() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('signupModal').classList.remove('active');
+            document.getElementById('authOverlay').classList.remove('active');
+        }
+
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.querySelector(`#${inputId} + .toggle-password i`);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+
+        document.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('authOverlay')) {
+                closeAllModals();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeAllModals();
+            }
+        });
+    </script>
+</body>
+</html>

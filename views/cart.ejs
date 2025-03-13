@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/cart.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Your Cart</h1>
+        <% if (cart && cart.items.length > 0) { %>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% cart.items.forEach(item => { %>
+                        <tr>
+                            <td><%= item.productId.productName %></td>
+                            <td>
+                                <form action="/update-quantity" method="POST" class="d-inline">
+                                    <input type="hidden" name="productId" value="<%= item.productId._id %>">
+                                    <input type="number" name="quantity" value="<%= item.quantity %>" min="1" class="form-control d-inline" style="width: 70px;">
+                                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                </form>
+                            </td>
+                            <td>$<%= item.price %></td>
+                            <td>$<%= item.quantity * item.price %></td>
+                            <td>
+                                <form action="/remove-from-cart" method="POST" class="d-inline">
+                                    <input type="hidden" name="productId" value="<%= item.productId._id %>">
+                                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <h4 class="text-right">Total: $<%= cart.totalPrice %></h4>
+            <div class="text-right">
+                <a href="/payment" class="btn btn-success">Pay Now</a>
+            </div>
+        <% } else { %>
+            <p class="text-center">Your cart is empty.</p>
+        <% } %>
+    </div>
+</body>
+</html>

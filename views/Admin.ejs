@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Faster+One&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <style>
+        :root {
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgba(59, 130, 246, 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+        }
+    
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+    
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+    
+       
+        .product-image {
+            width: 100%;
+            height: 250px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+    
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+        }
+    
+        
+        .product-details h5 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    
+        .price {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+    
+        .price b {
+            color: #28a745;
+            font-weight: bold;
+        }
+    
+        .price span {
+            color: #6c757d;
+        }
+    
+        .star-rating {
+            font-size: 24px;
+            cursor: pointer;
+        }
+    
+        .star {
+            color: gray;
+            transition: color 0.2s ease, outline 0.2s ease;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+        }
+    
+        .star.active, .star:hover {
+            color: gold;
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .star:focus {
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .category-suggestions {
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            width: 100%;
+            z-index: 1000;
+            display: none;
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000);
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            transition: outline-color 0.2s ease-in-out;
+        }
+    
+        .category-suggestions:focus-within {
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .category-suggestions div {
+            padding: 5px;
+            cursor: pointer;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            transition: outline-color 0.2s ease-in-out;
+        }
+    
+        .category-suggestions div:hover {
+            background-color: #f8f9fa;
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .category-suggestions div:focus {
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .auth-forms {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: #fff;
+            padding: 20px;
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000);
+            z-index: 1000;
+            border-radius: 8px;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            transition: outline-color 0.2s ease-in-out;
+        }
+    
+        .auth-forms:focus-within {
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow, 0 0 #0000);
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            transition: outline-color 0.2s ease-in-out;
+        }
+    
+        .sidenav:focus-within {
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #000;
+            display: block;
+            transition: 0.3s;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+        }
+    
+        .sidenav a:hover {
+            color: #007bff;
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .sidenav a:focus {
+            outline-color: var(--tw-ring-color);
+        }
+    
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            transition: outline-color 0.2s ease-in-out;
+        }
+    
+        .sidenav .closebtn:focus {
+            outline-color: var(--tw-ring-color);
+        }
+        .password-container {
+            position: relative;
+            width: 100%; /* Full width */
+        }
+    
+        .password-container input[type="password"],
+        .password-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            padding-right: 40px; /* Space for the eye icon */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+        }
+    
+        .toggle-password:hover {
+            color: #333;
+        }
+
+        .toggle-password i {
+        font-size: 1.2rem;
+        pointer-events: none;
+    }
+
+       .auth-buttons {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .auth-modal.active {
+            display: block;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .auth-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .auth-switch a {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .close-auth {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+    .product-gallery {
+        margin-bottom: 1rem;
+    }
+    
+    .thumbnail-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .price-badge {
+        font-size: 1.2rem;
+    }
+}
+
+/* Add these to your existing styles */
+.disabled-link {
+    color: #6c757d !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.admin-link {
+    color: #000;
+    transition: color 0.3s ease;
+}
+
+.admin-link:hover {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.admin-controls {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+    </style>
+</head>
+<body>
+    <div>
+        <%- include('partials/navbar') %>
+        <div class="container mt-3">
+            <div class="d-flex justify-content-end">
+                <div class="auth-buttons">
+                    <% if (!isAuthenticated) { %> 
+                        <button class="btn btn-outline-primary mr-2" onclick="toggleLoginModal()">Login</button>
+                        <button class="btn btn-primary" onclick="toggleSignupModal()">Sign Up</button>
+                    <% } %> 
+                </div>
+            </div>
+        </div>
+                
+                <div class="modal-overlay" id="authOverlay" onclick="closeAllModals()"></div>
+
+                <div id="loginModal" class="auth-modal">
+                    <div class="auth-header">
+                        <h4>Admin Login</h4>
+                        <button class="close-auth" onclick="closeAllModals()">&times;</button>
+                    </div>
+                    <form action="/admin/adminLogin" method="POST">
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group password-container">
+                            <input type="password" class="form-control" name="password" id="adminPassword" placeholder="Password" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('adminPassword')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <div class="form-group password-container">
+                            <input type="password" class="form-control" name="secretKey" id="adminSecretKey" placeholder="Secret Key" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('adminSecretKey')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        <div class="auth-switch">
+                            Don't have an account? <a onclick="toggleSignupModal()">Sign Up</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="signupModal" class="auth-modal">
+                    <div class="auth-header">
+                        <h4>Admin Signup</h4>
+                        <button class="close-auth" onclick="closeAllModals()">&times;</button>
+                    </div>
+                    <form action="/admin/adminSignup" method="POST">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group password-container">
+                            <input type="password" class="form-control" name="password" id="adminSignupPassword" placeholder="Password" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('adminSignupPassword')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <div class="form-group password-container">
+                            <input type="password" class="form-control" name="secretKey" id="adminSignupSecretKey" placeholder="Secret Key" required>
+                            <span class="toggle-password" onclick="togglePasswordVisibility('adminSignupSecretKey')">
+                                <i class="fas fa-eye"></i>
+                            </span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                        <div class="auth-switch">
+                            Already have an account? <a onclick="toggleLoginModal()">Login</a>
+                        </div>
+                    </form>
+                </div>
+                     
+            <% if (messages.error) { %>
+                <div class="alert alert-danger"><%= messages.error %></div>
+            <% } %>
+            <% if (messages.success) { %>
+                <div class="alert alert-success"><%= messages.success %></div>
+            <% } %>
+            
+            <% if (isAuthenticated) { %>
+                <div class="nav-item">
+                        <form action="/logout" method="POST">
+                          <button type="submit" class="btn btn-primary" 
+                                  style="font-weight:bold; font-size:15px; border-radius: 20px; padding:8px 25px;">
+                            LOG OUT
+                          </button>
+                        </form>
+                </div>
+            <% } %>
+
+        </nav>
+    </div>
+     
+    <div class="container">
+        <% if (isAuthenticated) { %>
+            <h1>Welcome, <%= admin.firstname %>!</h1>
+        <% } else { %>
+        <h1 class="text-center my-4">Welcome to the Admin Portal</h1>
+        <% } %>
+    </div>
+
+    <div class="putin">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4" style="background-color: #E6E7E9;">
+                    <div class="tea">
+                        <br><br>
+                        <% if (isAuthenticated) { %>
+                            <a href="/Admin" class="admin-link">Upload Product Page</a><br><br>
+                            <a href="/product" class="admin-link">Product Page</a><br><br>
+                            <a href="/order" class="admin-link">Orders <span class="badge bg-danger"><%= newOrdersCount %></span></a>
+                        <% } else { %>
+                            <span class="disabled-link">Upload Product Page</span><br><br>
+                            <span class="disabled-link">Product Page</span><br><br>
+                            <span class="disabled-link">Orders</span>
+                        <% } %>
+                        <br><br><br><br>
+                    </div>
+                </div>
+                
+                <div class="col-sm-7">
+                    <% if (!isAuthenticated) { %>
+                        <div class="alert alert-danger">Access Denied. Admins only.</div>
+                    <% } else { %>
+
+                    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#categoryModal">Create a new Category</button>
+
+                    <form action="/admin" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" class="form-control" name="productName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Product Code</label>
+                            <input type="text" class="form-control" name="productCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Original Price</label>
+                            <input type="number" class="form-control" name="originalPrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Discount Price (Optional)</label>
+                            <input type="number" class="form-control" name="discountPrice">
+                        </div>
+                        <div class="form-group">
+                            <label>Product Brand</label>
+                            <input type="text" class="form-control" name="productBrand" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input type="text" class="form-control" name="category" id="categoryInput" required autocomplete="off">
+                            <div class="category-suggestions" id="categorySuggestions"></div>
+                        </div>
+                        
+                         <div class="form-group">
+                            <label>Upload Image(s) & Video</label>
+                            <input type="file" class="form-control" name="media" multiple required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rating">Rating</label>
+                            <div class="star-rating">
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <span class="star" data-value="<%= i %>">&#9734;</span>
+                                <% } %>
+                            </div>
+                            <input type="hidden" name="rating" id="rating" value="0">
+                        </div>
+                        <button type="submit" class="btn btn-success">Upload Product</button>
+                    </form>
+
+                    <h3 class="mt-5">Product List</h3>
+                    <div class="row">
+                        <% products.forEach(product => { %>
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <img src="<%= product.urlImage %>" class="card-img-top" alt="<%= product.productName %>">
+                                    <!-- Modified Product Card Section -->
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%= product.productName %></h5>
+                                        <p><b>Brand:</b> <%= product.productBrand %></p>
+                                        <p><b>Price:</b> $<%= product.originalPrice %></p>
+                                        <p><b>Category:</b> <%= product.category %></p>
+                                        
+                                        <% if (isAuthenticated && admin) { %>
+                                        <div class="admin-controls mt-3">
+                                            <a href="/products/edit/<%= product._id %>" class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit me-1"></i> Edit
+                                            </a>
+                                            <form action="/products/delete/<%= product._id %>" method="POST" class="d-inline">
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash me-1"></i> Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <% } else { %>
+                                        <div class="alert alert-warning mt-3">Login required for modifications</div>
+                                        <% } %>
+                                    </div>
+                                                                    </div>
+                                                                </div>
+                                                            <% }); %>
+                                                        </div>
+
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+    <!-- Add a button to create a new category -->
+<button class="btn btn-primary mb-3" data-toggle="modal" data-target="#categoryModal">Create Category</button>
+
+<!-- Add a modal for creating a new category -->
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New Category</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="/create-category" method="post">
+                    <div class="form-group">
+                        <label>Category Name</label>
+                        <input type="text" class="form-control" name="categoryName" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Category</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const stars = document.querySelectorAll('.star-rating .star');
+            const ratingInput = document.getElementById('rating');
+
+            stars.forEach(star => {
+                star.addEventListener('click', function () {
+                    const value = parseInt(this.getAttribute('data-value'));
+                    ratingInput.value = value;
+
+                    stars.forEach((s, index) => {
+                        s.classList.toggle('active', index < value);
+                    });
+                });
+            });
+        });
+        function toggleLoginModal() {
+            closeAllModals(); // Ensures only one modal is open at a time
+            document.getElementById('loginModal').classList.add('active');
+            document.getElementById('authOverlay').classList.add('active');
+        }
+
+        function toggleSignupModal() {
+            closeAllModals(); // Ensures only one modal is open at a time
+            document.getElementById('signupModal').classList.add('active');
+            document.getElementById('authOverlay').classList.add('active');
+        }
+
+        function closeAllModals() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('signupModal').classList.remove('active');
+            document.getElementById('authOverlay').classList.remove('active');
+        }
+
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.querySelector(`#${inputId} + .toggle-password i`);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+
+        document.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('authOverlay')) {
+                closeAllModals();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeAllModals();
+            }
+        });
+    </script>
+</body>
+</html>

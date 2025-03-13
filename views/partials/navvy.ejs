@@ -1,0 +1,33 @@
+<nav>
+<div class="nav-container">
+    <% if (!isAuthenticated) { %> 
+        <button onclick="toggleAuthForms()">Login/Signup</button>
+    <% } %> 
+</div>
+<% if (!isAuthenticated) { %>
+<div id="authForms" class="auth-forms" style="display: none;">
+    <form action="customerProduct/customerLogin" method="POST">
+        <input type="email" class="form-control" id="email" name="email" required>
+        <input type="password" class="form-control" id="password" name="password" required>
+    <button type="submit" class="btn btn-primary">Log In</button>
+</form>
+<form action="customerProduct/customerSignup" method="POST">
+        <input type="text" class="form-control" id="firstname" name="firstname" required>
+        <input type="text" class="form-control" id="lastname" name="lastname" required>
+        <input type="email" class="form-control" id="email" name="email" required>
+        <input type="password" class="form-control" id="password" name="password" required>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+</form>
+</div>
+<% } %>  
+<% if (isAuthenticated) { %>
+    <div class="nav-item">
+        <form action="/logout" method="POST">
+            <button type="submit" class="btn btn-primary" 
+                    style="font-weight:bold; font-size:15px; border-radius: 20px; padding:8px 25px;">
+                LOG OUT
+            </button>
+        </form>
+    </div>
+<% } %>
+</nav>

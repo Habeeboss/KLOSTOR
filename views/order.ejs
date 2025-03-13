@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Montserrat&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-light py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <img src="images/shop.png" alt="Logo" width="50">
+                </div>
+                <div class="fap">
+                    <h2 class="mb-0">Admin Portal</h2>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-4">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <a href="Admin" class="text-dark">
+                                        <i class="fas fa-upload me-2"></i>Upload Product Page
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a href="product" class="text-dark">
+                                        <i class="fas fa-box me-2"></i>Product Page
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a href="order" class="text-dark">
+                                        <i class="fas fa-list-alt me-2"></i>Order
+                                    </a>
+                                </li>
+                                <li class="mt-5">
+                                    <a href="index1.ejs" class="btn btn-primary w-100">
+                                        <i class="fas fa-sign-out-alt me-2"></i>LOG OUT
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Order Requests</h5>
+                            <div>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Full Name</th>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                            <th>Email Address</th>
+                                            <th>Phone Number</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (let i = 0; i < orderrequests.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= orderrequests[i].fullname %>
+                                                    <% if (!orderrequests[i].viewed) { %>
+                                                        <span class="badge bg-danger">New</span>
+                                                    <% } %>
+                                                </td>
+                                                <td><%= orderrequests[i].productname %></td> 
+                                                <td><%= orderrequests[i].quantity %></td>
+                                                <td><%= orderrequests[i].email %></td>
+                                                <td><%= orderrequests[i].number %></td>
+                                                <td><%= orderrequests[i].address %></td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End of Main Content Area -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        <p class="mb-0">&copy; 2023 Admin Portal. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

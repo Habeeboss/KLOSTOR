@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= product.productName %> Preview</title>
+    <style>
+        .product-gallery {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .thumbnail-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .thumbnail.active {
+            border-color: #007bff;
+        }
+        .price-badge {
+            font-size: 1.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #28a745;
+            color: white;
+            border-radius: 0.25rem;
+        }
+        @media (max-width: 768px) {
+    .product-gallery {
+        margin-bottom: 1rem;
+    }
+    
+    .thumbnail-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .price-badge {
+        font-size: 1.2rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <main class="container my-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img src="<%= product.urlImage %>" 
+                             class="img-fluid rounded" 
+                             alt="<%= product.productName %>"
+                             id="mainImage">
+                    </div>
+                    <div class="thumbnail-container">
+                        <% product.media.forEach((media, index) => { %>
+                            <img src="<%= media %>" 
+                                 class="thumbnail <%= index === 0 ? 'active' : '' %>"
+                                 data-index="<%= index %>"
+                                 alt="Thumbnail <%= index + 1 %>">
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h1 class="mb-3"><%= product.productName %></h1>
+                <div class="d-flex align-items-center mb-4">
+                    <div class="price-badge">
+                        $<%= product.discountPrice || product.originalPrice %>
+                        <% if (product.discountPrice) { %>
+                            <small class="text-muted text-decoration-line-through ms-2">
+                                $<%= product.originalPrice %>
+                            </small>
+                        <% } %>
+                    </div>
+                    <span class="badge bg-<%= product.inStock ? 'success' : 'danger' %> ms-3">
+                        <%= product.inStock ? 'In Stock' : 'Out of Stock' %>
+                    </span>
+                </div>
+                
+                <div class="star-rating mb-4">
+                    <% for (let i = 1; i <= 5; i++) { %>
+                        <i class="fas fa-star <%= i <= product.rating ? 'text-warning' : 'text-secondary' %>"></i>
+                    <% } %>
+                </div>
+
+                <div class="mb-4">
+                    <h4>Product Details</h4>
+                    <ul class="list-unstyled">
+                        <li><strong>Brand:</strong> <%= product.productBrand %></li>
+                        <li><strong>Product Code:</strong> <%= product.productCode %></li>
+                        <li><strong>Category:</strong> <%= product.category %></li>
+                    </ul>
+                </div>
+
+                <% if (isAuthenticated) { %>
+                    <form action="/add-to-cart" method="POST" class="mb-4">
+                        <input type="hidden" name="productId" value="<%= product._id %>">
+                        <div class="input-group mb-3" style="max-width: 200px;">
+                            <button class="btn btn-outline-secondary" type="button" onclick="adjustQuantity(-1)">−</button>
+                            <input type="number" name="quantity" 
+                                   class="form-control text-center" 
+                                   value="1" min="1" max="10" id="quantityInput">
+                            <button class="btn btn-outline-secondary" type="button" onclick="adjustQuantity(1)">+</button>
+                        </div>
+                        <button type="submit" 
+                                class="btn btn-primary btn-lg w-100"
+                                <%= !product.inStock ? 'disabled' : '' %>>
+                            <i class="fas fa-cart-plus me-2"></i>
+                            Add to Cart
+                        </button>
+                    </form>
+                <% } else { %>
+                    <div class="alert alert-info">
+                        Please <a href="/customerProduct" class="alert-link">login</a> to purchase this item
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        
+        document.querySelectorAll('.thumbnail').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('mainImage').src = this.src;
+            });
+        });
+
+        function adjustQuantity(change) {
+            const input = document.getElementById('quantityInput');
+            let value = parseInt(input.value) + change;
+            if (value < 1) value = 1;
+            if (value > 10) value = 10;
+            input.value = value;
+        }
+    </script>
+</body>
+</html>

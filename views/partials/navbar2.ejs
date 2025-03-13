@@ -1,0 +1,189 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <!-- Logo with link to home -->
+        <a class="navbar-brand" href="/" id="homeLogo">
+            <img src="images/shop.png" width="50" alt="Logo">
+        </a>
+
+        <!-- Navbar Toggler for mobile -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Items -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav w-100 d-flex justify-content-between">
+                <!-- Nav Links -->
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/customerProduct">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="/cart">Cart</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Men</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Women</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+
+                <!-- Conditional Rendering for Authenticated Users -->
+                <% if (isAuthenticated) { %>
+                    <li class="nav-item">
+                        <p class="nav-link mb-0">Welcome back, <%= user.firstname %>!</p>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/register">Sign Up</a></li>
+                <% } %>
+
+                <!-- Search Box -->
+                <li class="nav-item search-box d-flex align-items-center">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search..">
+                    <button class="btn btn-primary ml-2" onclick="performSearch()">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- JavaScript to Disable Home Logo Link on Home Page -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentUrl = window.location.pathname; // Get the current URL path
+        const homeLogo = document.getElementById('homeLogo'); // Get the home logo link
+
+        // Check if the current page is the home page
+        if (currentUrl === "/") {
+            // If on the home page, disable the link
+            homeLogo.removeAttribute('href'); // Remove the href attribute
+            homeLogo.classList.add('disabled-link'); // Add disabled styling
+        }
+    });
+</script>
+
+<!-- CSS for Disabled Link -->
+<style>
+    /* Navbar Container */
+.navbar-nav {
+    flex-direction: row; /* Ensures items are in a row */
+    justify-content: space-around; /* Distributes items equally */
+    --tw-ring-offset-width: 0px; /* Tailwind-like ring offset */
+    --tw-ring-offset-color: #fff; /* Tailwind-like ring offset color */
+    --tw-ring-color: rgba(59, 130, 246, 0.5); /* Tailwind-like ring color */
+    --tw-ring-offset-shadow: 0 0 #0000; /* Tailwind-like ring offset shadow */
+    --tw-ring-shadow: 0 0 #0000; /* Tailwind-like ring shadow */
+    --tw-shadow: 0 0 #0000; /* Tailwind-like shadow */
+    --tw-shadow-colored: 0 0 #0000; /* Tailwind-like colored shadow */
+    --tw-blur: ; /* Tailwind-like blur */
+}
+
+/* Nav Items */
+.nav-item {
+    margin: 0 10px; /* Adds space between nav items */
+    --tw-ring-inset: ; /* Tailwind-like ring inset */
+    --tw-ring-offset-width: 0px; /* Tailwind-like ring offset */
+    --tw-ring-offset-color: #fff; /* Tailwind-like ring offset color */
+    --tw-ring-color: rgba(59, 130, 246, 0.5); /* Tailwind-like ring color */
+    --tw-ring-offset-shadow: 0 0 #0000; /* Tailwind-like ring offset shadow */
+    --tw-ring-shadow: 0 0 #0000; /* Tailwind-like ring shadow */
+    --tw-shadow: 0 0 #0000; /* Tailwind-like shadow */
+    --tw-shadow-colored: 0 0 #0000; /* Tailwind-like colored shadow */
+    --tw-blur: ; /* Tailwind-like blur */
+}
+
+.nav-item:focus {
+    outline: none; /* Removes default focus outline */
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); /* Applies Tailwind-like focus ring */
+}
+
+/* Search Box */
+.search-box {
+    display: flex; /* Ensures the search input and button are inline */
+    align-items: center; /* Vertically centers the search elements */
+}
+
+.search-box .form-control {
+    margin-right: 5px; /* Adds space between input and button */
+    width: 200px; /* Adjust width as needed */
+    --tw-ring-offset-width: 0px; /* Tailwind-like ring offset */
+    --tw-ring-offset-color: #fff; /* Tailwind-like ring offset color */
+    --tw-ring-color: rgba(59, 130, 246, 0.5); /* Tailwind-like ring color */
+    --tw-ring-offset-shadow: 0 0 #0000; /* Tailwind-like ring offset shadow */
+    --tw-ring-shadow: 0 0 #0000; /* Tailwind-like ring shadow */
+    --tw-shadow: 0 0 #0000; /* Tailwind-like shadow */
+    --tw-shadow-colored: 0 0 #0000; /* Tailwind-like colored shadow */
+}
+
+.search-box .form-control:focus {
+    outline: none; /* Removes default focus outline */
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); /* Applies Tailwind-like focus ring */
+}
+
+.search-box .btn {
+    --tw-ring-offset-width: 0px; /* Tailwind-like ring offset */
+    --tw-ring-offset-color: #fff; /* Tailwind-like ring offset color */
+    --tw-ring-color: rgba(59, 130, 246, 0.5); /* Tailwind-like ring color */
+    --tw-ring-offset-shadow: 0 0 #0000; /* Tailwind-like ring offset shadow */
+    --tw-ring-shadow: 0 0 #0000; /* Tailwind-like ring shadow */
+    --tw-shadow: 0 0 #0000; /* Tailwind-like shadow */
+    --tw-shadow-colored: 0 0 #0000; /* Tailwind-like colored shadow */
+}
+
+.search-box .btn:focus {
+    outline: none; /* Removes default focus outline */
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); /* Applies Tailwind-like focus ring */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .search-box {
+        margin-top: 10px; /* Adjusts margin for mobile view */
+    }
+
+    .navbar-nav {
+        flex-direction: column; /* Stacks items vertically on smaller screens */
+        align-items: center; /* Centers items */
+    }
+}
+
+/* Additional Styles for Links and Logo */
+.navbar-light .navbar-nav .nav-link {
+    color: #333; /* Default link color */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #007bff; /* Hover link color */
+}
+
+.navbar-brand img {
+    max-height: 40px; /* Adjust logo height */
+}
+
+/* Style the Welcome Message */
+.nav-item .nav-link.welcome-message {
+    color: #555; /* Welcome message color */
+}
+
+/* Search Box Input and Button Styling */
+.input-group .btn {
+    border-top-left-radius: 0; /* Make button's left edge square */
+    border-bottom-left-radius: 0;
+}
+
+.input-group .form-control {
+    border-top-right-radius: 0; /* Make input's right edge square */
+    border-bottom-right-radius: 0;
+}
+
+.inactive-link {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.7;
+}
+.disabled-link {
+    pointer-events: none; /* Prevents click events */
+    cursor: default; /* Changes cursor to default */
+    opacity: 0.7; /* Optional: Reduces opacity to indicate it's inactive */
+    color: gray; /* Optional: Changes color to indicate it's inactive */
+}
+</style>

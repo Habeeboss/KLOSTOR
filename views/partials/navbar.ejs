@@ -1,0 +1,213 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/" id="conditionalLink">
+            <img src="images/shop.png" width="150" alt="Logo">
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav w-100 d-flex justify-content-between align-items-center">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/customerProduct">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="/cart">Cart</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Men</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Women</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                <li class="nav-item ml-auto">
+                    <div id="clock" class="nav-link clock-display"></div>
+                </li>
+                
+                <li class="nav-item search-box d-flex align-items-center">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search..">
+                    <button class="btn btn-primary ml-2" onclick="performSearch()">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </li>            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the current URL pathname
+        const currentPath = window.location.pathname;
+
+
+        // Check if the user is on the home page
+        if (currentPath === '/') {
+            // Disable the link if on home page
+            const link = document.getElementById('conditionalLink');
+            link.classList.add('disabled-link'); // Add disabled styling
+            link.href = '#'; // Prevent navigation
+        }
+    });
+
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+
+        function updateClock() {
+        const now = new Date();
+        const options = {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+        };
+        const formattedDateTime = now.toLocaleString('en-US', options);
+        document.getElementById('clock').textContent = formattedDateTime;
+        }
+
+        setInterval(updateClock, 1000);
+        document.addEventListener("DOMContentLoaded", updateClock);
+
+</script>
+<style>
+    :root {
+        --tw-ring-offset-width: 0px;
+        --tw-ring-offset-color: #fff;
+        --tw-ring-color: rgba(59, 130, 246, 0.5);
+        --tw-ring-offset-shadow: 0 0 #0000;
+        --tw-ring-shadow: 0 0 #0000;
+        --tw-shadow: 0 0 #0000;
+        --tw-shadow-colored: 0 0 #0000;
+    }
+
+    .navbar-nav {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .nav-item {
+        margin: 0 10px;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        transition: outline-color 0.2s ease-in-out;
+    }
+
+    .nav-item:focus {
+        outline: none;
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        outline-color: var(--tw-ring-color);
+    }
+
+    .search-box {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-box .form-control {
+        margin-right: 5px;
+        width: 200px;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        transition: outline-color 0.2s ease-in-out;
+    }
+
+    .search-box .form-control:focus {
+        outline: none;
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        outline-color: var(--tw-ring-color);
+    }
+
+    .search-box .btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        transition: outline-color 0.2s ease-in-out;
+    }
+
+    .search-box .btn:focus {
+        outline: none;
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        outline-color: var(--tw-ring-color);
+    }
+
+    .navbar-light .navbar-nav .nav-link {
+        color: #333;
+        transition: color 0.3s ease, outline-color 0.2s ease;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+
+    .navbar-light .navbar-nav .nav-link:hover {
+        color: #007bff;
+        outline-color: var(--tw-ring-color);
+    }
+
+    .navbar-light .navbar-nav .nav-link:focus {
+        outline: none;
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        outline-color: var(--tw-ring-color);
+    }
+
+    .navbar-brand img {
+        max-height: 500px;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        transition: outline-color 0.2s ease-in-out;
+    }
+
+    .navbar-brand img:focus {
+        outline: none;
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        outline-color: var(--tw-ring-color);
+    }
+
+    .disabled-link {
+        pointer-events: none;
+        color: gray;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        transition: outline-color 0.2s ease-in-out;
+    }
+
+    .disabled-link:focus {
+        outline: none;
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        outline-color: var(--tw-ring-color);
+    }
+
+    .clock-display {
+        font-family: 'Arial', sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+        padding: 8px 12px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+        .navbar-nav {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .nav-item {
+            margin: 5px 0;
+        }
+
+        .search-box {
+            margin-top: 10px;
+        }
+
+        .clock-display {
+            font-size: 12px;
+            padding: 6px 10px;
+            margin-top: 10px;
+        }
+    }
+</style>

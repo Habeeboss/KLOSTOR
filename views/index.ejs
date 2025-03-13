@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Habeeby's Shopping Palace</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Faster+One&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href="css/indexstyle.css" rel="stylesheet">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    
+    <style>
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .star-rating .star {
+            font-size: 20px;
+            color: #ccc; /* Default color for unselected stars */
+            transition: color 0.2s ease-in-out;
+        }
+        .star-rating .star.active {
+            color: gold; /* Color for selected stars */
+            
+        }
+        /* Side Navigation Bar */
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #000;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidenav a:hover {
+            color: #007bff;
+        }
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+        .auth-buttons {
+            margin: 15px 0;
+            text-align: right;
+        }
+
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .auth-modal.active {
+            display: block;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .auth-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .auth-switch a {
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .close-auth {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .toggle-password i {
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+        @media (max-width: 768px) {
+    .product-gallery {
+        margin-bottom: 1rem;
+    }
+    
+    .thumbnail-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .price-badge {
+        font-size: 1.2rem;
+    }
+}
+
+    </style>
+</head>
+<body><body>
+    <%- include('partials/navbar') %>
+    
+    <!-- Auth Buttons -->
+    <div class="container">
+        <div class="auth-buttons">
+            <% if (!isAuthenticated) { %> 
+                <button class="btn btn-outline-primary mr-2" onclick="toggleLoginModal()">Login</button>
+                <button class="btn btn-primary" onclick="toggleSignupModal()">Sign Up</button>
+            <% } %> 
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="authOverlay" onclick="closeAllModals()"></div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="auth-modal">
+        <div class="auth-header">
+            <h4>Customer Login</h4>
+            <button class="close-auth" onclick="closeAllModals()">&times;</button>
+        </div>
+        <form action="/customerProduct/customerLogin" method="POST">
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-group password-container">
+                <input type="password" class="form-control" name="password" id="loginPassword" placeholder="Password" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('loginPassword')">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <div class="auth-switch">
+                Don't have an account? <a onclick="toggleSignupModal()">Sign Up</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="auth-modal">
+        <div class="auth-header">
+            <h4>Customer Signup</h4>
+            <button class="close-auth" onclick="closeAllModals()">&times;</button>
+        </div>
+        <form action="/customerProduct/customerSignup" method="POST">
+            <div class="form-group">
+                <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-group password-container">
+                <input type="password" class="form-control" name="password" id="signupPassword" placeholder="Password" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility('signupPassword')">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+            <div class="auth-switch">
+                Already have an account? <a onclick="toggleLoginModal()">Login</a>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <h1 class="text-center my-4">Welcome to Our Store</h1>
+    </div>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="images/men slide.png" alt="First slide">
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="images/Women slide.png" alt="Second slide">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    
+    <section class="category-section mt-5">
+        <h1>Our Categories</h1>
+        <hr>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="category-card">
+                        <img src="images/pexels-photo-3598417.JPEG" class="img-fluid category-img" alt="Men Category">
+                        <h5>Men</h5>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="category-card">
+                        <img src="images/pexels-photo-2698448.JPEG" class="img-fluid category-img" alt="Women Category">
+                        <h5>Women</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="new-arrivals">
+        <div class="container">
+            <h2 class="section-title text-center">New Arrivals</h2>
+            <div class="row">
+                <% orders.forEach((order) => { %>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="<%= order.urlImage %>" alt="<%= order.productName %>">
+                            </div>
+                            <div class="product-details">
+                                <h5><%= order.productName %></h5>
+
+                                <!-- Star Rating -->
+                                <div class="star-rating">
+                                    <% for (let i = 1; i <= 5; i++) { %>
+                                        <% if (i <= order.rating) { %>
+                                            <span class="star active">&#9733;</span>
+                                        <% } else { %>
+                                            <span class="star">&#9734;</span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+
+                                <p class="price">
+                                    <% if (order.discountPrice) { %>
+                                        <b>$<%= order.discountPrice %></b>
+                                        <span style="text-decoration: line-through;">$<%= order.originalPrice %></span>
+                                    <% } else { %>
+                                        <b>$<%= order.originalPrice %></b>
+                                    <% } %>
+                                </p>
+                                <p><b>Brand:</b> <%= order.productBrand %></p>
+                                <p><b>In Stock:</b> <%= order.inStock ? 'Yes' : 'No' %></p>
+                                <div class="d-flex justify-content-between">
+                                    <button onclick="addToCart('<%= order._id %>')" class="btn btn-success btn-sm">
+                                        <i class="fas fa-shopping-cart me-1"></i> Add to Cart
+                                    </button>
+                                    <a href="/preview/<%= order._id %>" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-eye me-1"></i> Preview
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer mt-5">
+        <div class="container text-center">
+            <p>&copy; 2025 Habeeby's Shopping Palace. All Rights Reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Modal functions
+        function toggleLoginModal() {
+            document.getElementById('loginModal').classList.toggle('active');
+            document.getElementById('authOverlay').classList.toggle('active');
+        }
+
+        function toggleSignupModal() {
+            document.getElementById('signupModal').classList.toggle('active');
+            document.getElementById('authOverlay').classList.toggle('active');
+        }
+
+        function closeAllModals() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('signupModal').classList.remove('active');
+            document.getElementById('authOverlay').classList.remove('active');
+        }
+
+        // Password toggle
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.querySelector(`#${inputId} + .toggle-password i`);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+
+        // Close modals on outside click
+        document.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('authOverlay')) {
+                closeAllModals();
+            }
+        });
+
+        // Close modals on ESC key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeAllModals();
+            }
+        });
+
+        // Existing carousel and other functions remain unchanged
+    </script>
+</body>
+</html>

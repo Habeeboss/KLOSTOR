@@ -1,0 +1,126 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.text-red {
+    color: red;
+}
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-5 { margin-top: 3rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mb-5 { margin-bottom: 3rem; }
+
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+.p-5 { padding: 3rem; }
+
+/* Specific Styles */
+#saw {
+    background-color: white;
+}
+
+.box {
+    background-color: #E6E7E9;
+    height: 300px;
+    width: 450px;
+    margin: 100px auto 0;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.ad {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-top: 15px;
+}
+
+.debb {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.debb a {
+    margin-top: 6px;
+    margin-right: 5px;
+}
+
+.boz1, .boz2 {
+    border: none;
+    border-radius: 10px;
+    width: 300px;
+    padding: 10px;
+    margin: 10px auto;
+}
+
+.aster {
+    color: red;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .box {
+        width: 90%;
+        height: auto;
+        padding: 15px;
+    }
+
+    .ad {
+        font-size: 22px;
+    }
+
+    .name {
+        font-size: 14px;
+    }
+
+    .boz1, .boz2 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .box {
+        margin-top: 50px;
+    }
+
+    .ad {
+        font-size: 20px;
+    }
+
+    .name {
+        font-size: 12px;
+    }
+}
