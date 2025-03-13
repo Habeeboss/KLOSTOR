@@ -7,4 +7,5 @@ config/secret.js
 
 # Ignore environment variables
 .env
+junk.doc
 
