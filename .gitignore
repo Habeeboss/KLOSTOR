@@ -1,1 +1,10 @@
 .qodo
+# Ignore node_modules folder
+node_modules/
+
+# Ignore config secrets
+config/secret.js
+
+# Ignore environment variables
+.env
+
