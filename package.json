@@ -11,14 +11,17 @@
     "busboy": "^1.6.0",
     "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
+    "csurf": "^1.10.0",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.5",
     "express": "^4.21.2",
     "express-flash": "^0.0.2",
     "express-flash-messages": "^0.1.1",
-    "express-rate-limit": "^6.7.0",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.11.2",
     "express-session": "^1.18.1",
     "grep": "^0.1.0",
+    "helmet": "^8.0.0",
     "mongodb": "^6.11.0",
     "mongoose": "^8.8.3",
     "multer": "^1.4.5-lts.1",
@@ -31,9 +34,9 @@
     "sharp": "^0.33.5",
     "stable": "^0.1.8",
     "stripe": "^17.6.0",
-    "test": "^3.3.0"
+    "test": "^3.3.0",
+    "xss-clean": "^0.1.4"
   },
-  
   "scripts": {
     "test": "jest"
   },
